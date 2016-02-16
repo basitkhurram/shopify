@@ -1,7 +1,7 @@
 import json, urllib.request
 
 TAX_RATE = 0.13
-MASS_LIMIT = 100 #in kilograms
+MASS_LIMIT = 100 ##In kilograms.
 URL = "http://shopicruit.myshopify.com/products.json"
 
 def option_counter(variant):
@@ -60,16 +60,16 @@ def packer(products, limit):
     the items to be purchased.
     '''
         cost_pretax, tax, mass = 0, 0, 0
-        purchased = set()                   #the items with the least mass are at
-        while products and mass <= limit:   #the 'top of the stack'. Keep purchasing
-            product = products.pop()        #the lightest available item and
-            mass += product[0]              #pop it from the stack of available
-            tax += product[1]               #items. Keep track of the increase
-            cost_pretax += product[2]       #in mass and cost of the items.
+        purchased = set()                   ##The items with the least mass are at
+        while products and mass <= limit:   ##the 'top of the stack'. Keep purchasing
+            product = products.pop()        ##the lightest available item and
+            mass += product[0]              ##pop it from the stack of available
+            tax += product[1]               ##items. Keep track of the increase
+            cost_pretax += product[2]       ##in mass and cost of the items.
             purchased.add(product)          
-        if mass > limit:                    #in case the last item purchased overflows
-            mass -= product[0]              #our maximal mass limit, remove the last
-            tax -= product[1]               #item that was added.
+        if mass > limit:                    ##In case the last item purchased overflows
+            mass -= product[0]              ##our maximal mass limit, remove the last
+            tax -= product[1]               ##item that was added.
             cost_pretax -= product[2]
             purchased.remove(product)
         tax = round(tax, 2)
@@ -117,12 +117,12 @@ def run(all_products, mass_limit, desired_items):
     Wrapper function, prints the
     desired answer to the console.
     '''
-    mass_limit *= 1000                                  #convert to grams
-    products = extractor(all_products, desired_items)   #parse through all products and find the desired ones
-    solution = packer(products, mass_limit)             #purchase as many items without exceeding mass_limit
-    presentation(solution)                              #print the answers to the console
+    mass_limit *= 1000                                  #Convert to grams.
+    products = extractor(all_products, desired_items)   #Parse through all products and find the desired ones.
+    solution = packer(products, mass_limit)             #Purchase as many items without exceeding mass_limit.
+    presentation(solution)                              #Print the answers to the console.
 
 response = urllib.request.urlopen(URL).read()
 all_products = json.loads(response.decode('utf-8'))["products"]
 
-run(all_products, MASS_LIMIT, {"Computer", "Keyboard"}) #solve the given problem
+run(all_products, MASS_LIMIT, {"Computer", "Keyboard"}) #Solve the given problem.
